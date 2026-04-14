@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Organ Transplant System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --br: #1A0A00;
+            --dr: #5C2300;
+            --mr: #8B4513;
+            --lr: #C4956A;
+            --cr: #D4B896;
+            --lc: #EDD9C0;
+            --bg: #F5EDE3;
+            --text: #1A0A00;
+            --text2: #5C2300;
+            --border: #C4956A;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: var(--text);
+            padding: 2rem;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            border-top: 4px solid var(--mr);
+            padding: 2.5rem;
+            margin: 1.5rem auto;
+            max-width: 1400px;
+        }
+
+        h1 {
+            color: var(--br);
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: clamp(1.4rem, 4vw, 2rem);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* Stat Cards */
+        .card {
+            background: #fff !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 2px !important;
+            border-top: 3px solid var(--mr) !important;
+            transition: box-shadow 0.2s;
+        }
+        .card:hover {
+            box-shadow: 0 4px 20px rgba(139,69,19,0.15) !important;
+            transform: none;
+        }
+        .card-body h5 {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text2);
+            margin-bottom: 6px;
+        }
+        .card-body h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--br);
+        }
+        .card-body i {
+            color: var(--mr) !important;
+        }
+        /* remove bootstrap gradient overrides on stat cards */
+        .bg-gradient { background: none !important; }
+        .bg-primary, .bg-success, .bg-warning, .bg-info { background: #fff !important; }
+        .text-white { color: var(--br) !important; }
+
+        /* Nav Tabs */
+        .nav-tabs {
+            border-bottom: 2px solid var(--border);
+            gap: 0;
+            justify-content: flex-start;
+            margin-bottom: 0 !important;
+        }
+        .nav-tabs .nav-link {
+            border: none;
+            border-radius: 0;
+            padding: 12px 22px;
+            color: var(--text2);
+            font-weight: 500;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            background: none;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.15s;
+        }
+        .nav-tabs .nav-link:hover { color: var(--mr); }
+        .nav-tabs .nav-link.active {
+            background: none !important;
+            color: var(--br) !important;
+            border-bottom: 3px solid var(--mr) !important;
+            box-shadow: none;
+        }
+
+        /* Tab content panel */
+        .tab-content {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-top: none;
+            padding: 2rem;
+        }
+
+        /* Buttons */
+        .btn {
+            border-radius: 2px;
+            font-weight: 600;
+            padding: 10px 24px;
+            border: none;
+            transition: all 0.15s;
+            letter-spacing: 0.8px;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        .btn-primary {
+            background: var(--mr) !important;
+            border-color: var(--mr) !important;
+            color: #fff !important;
+        }
+        .btn-primary:hover {
+            background: var(--dr) !important;
+            transform: none;
+            box-shadow: none;
+        }
+        .btn-success {
+            background: var(--lr) !important;
+            color: var(--br) !important;
+            border-color: var(--lr) !important;
+        }
+        .btn-success:hover {
+            background: var(--mr) !important;
+            color: #fff !important;
+        }
+        .btn-warning {
+            background: var(--br) !important;
+            border-color: var(--br) !important;
+            color: var(--lc) !important;
+        }
+        .btn-warning:hover {
+            background: var(--dr) !important;
+        }
+        .btn-secondary {
+            background: var(--cr) !important;
+            border-color: var(--cr) !important;
+            color: var(--br) !important;
+        }
+        .btn-info {
+            background: none !important;
+            border: 1px solid var(--border) !important;
+            color: var(--text2) !important;
+        }
+        .btn-info:hover {
+            border-color: var(--mr) !important;
+            color: var(--mr) !important;
+        }
+        .btn-danger {
+            background: none !important;
+            border: 1px solid #c0392b !important;
+            color: #c0392b !important;
+        }
+        .btn-danger:hover {
+            background: #c0392b !important;
+            color: #fff !important;
+        }
+
+        /* Forms */
+        .form-control, .form-select {
+            border-radius: 2px !important;
+            border: 1px solid var(--border) !important;
+            background: #FDFAF7 !important;
+            color: var(--text) !important;
+            font-size: 14px;
+            padding: 10px 14px;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--mr) !important;
+            background: #fff !important;
+            box-shadow: none !important;
+        }
+        .form-control::placeholder { color: var(--cr); }
+
+        /* Inner cards (donor/patient forms) */
+        .card.p-4 {
+            border-top: 3px solid var(--mr) !important;
+        }
+        .card-title {
+            font-size: 12px !important;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--text2) !important;
+            font-weight: 600;
+        }
+        .card-title i { color: var(--mr) !important; }
+
+        /* Tables */
+        .table { font-size: 13px; border-collapse: collapse; }
+        .table-dark {
+            background: var(--br) !important;
+        }
+        .table-dark th {
+            background: var(--br) !important;
+            color: var(--lc) !important;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            padding: 11px 14px;
+            border: none !important;
+        }
+        .table td { padding: 10px 14px; border-bottom: 1px solid var(--lc) !important; color: var(--text); }
+        .table-hover tbody tr:hover td { background: var(--bg) !important; }
+        .table-striped tbody tr:nth-of-type(odd) td { background: #FDFAF7; }
+
+        /* Badges */
+        .badge.bg-primary { background: var(--dr) !important; color: var(--lc) !important; border-radius: 2px; font-weight: 600; letter-spacing: 0.5px; }
+        .badge.bg-success { background: var(--lc) !important; color: var(--dr) !important; border: 1px solid var(--cr); border-radius: 2px; }
+        .badge.bg-danger  { background: var(--br) !important; color: var(--lc) !important; border-radius: 2px; }
+        .badge.bg-low     { background: var(--cr) !important; color: var(--br) !important; border-radius: 2px; }
+        .badge.bg-medium  { background: var(--mr) !important; color: #fff !important; border-radius: 2px; }
+        .badge.bg-high    { background: var(--br) !important; color: var(--lc) !important; border-radius: 2px; }
+
+        /* Match cards */
+        #matchesList .card {
+            border-left: 4px solid var(--mr) !important;
+            border-top: 1px solid var(--border) !important;
+            background: #FDFAF7 !important;
+            border-radius: 2px !important;
+            margin-bottom: 10px;
+        }
+
+        /* Section lead text */
+        .lead { font-size: 13px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 1.5rem; }
+
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-hospital me-3" style="color:var(--mr)"></i>Transplant Dashboard</h1>
+
+        <!-- Stats -->
+        <div class="row mb-4" id="stats">
+            <div class="col-md-3 mb-3"><div class="card text-white bg-gradient bg-primary"><div class="card-body text-center"><i class="fas fa-users fa-2x mb-2"></i><h5>Donors</h5><h2 id="totalDonors">0</h2></div></div></div>
+            <div class="col-md-3 mb-3"><div class="card text-white bg-gradient bg-success"><div class="card-body text-center"><i class="fas fa-user-injured fa-2x mb-2"></i><h5>Patients</h5><h2 id="totalPatients">0</h2></div></div></div>
+            <div class="col-md-3 mb-3"><div class="card text-white bg-gradient bg-warning"><div class="card-body text-center"><i class="fas fa-search fa-2x mb-2"></i><h5>Matches</h5><h2 id="totalMatches">0</h2></div></div></div>
+            <div class="col-md-3 mb-3"><div class="card text-white bg-gradient bg-info"><div class="card-body text-center"><i class="fas fa-hand-holding-heart fa-2x mb-2"></i><h5>Available</h5><h2 id="availableOrgans">0</h2></div></div></div>
+        </div>
+
+        <!-- Tabs -->
+        <ul class="nav nav-tabs mb-4" id="tabs">
+            <li class="nav-item"><a class="nav-link active" href="#dashboard" data-bs-toggle="tab">Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="#addDonor" data-bs-toggle="tab">+ Donor</a></li>
+            <li class="nav-item"><a class="nav-link" href="#addPatient" data-bs-toggle="tab">+ Patient</a></li>
+            <li class="nav-item"><a class="nav-link" href="#matches" data-bs-toggle="tab">Matches</a></li>
+            <li class="nav-item"><a class="nav-link" href="#data" data-bs-toggle="tab">View Data</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <!-- Dashboard Tab -->
+            <div class="tab-pane fade show active" id="dashboard">
+                <p class="lead">Click tabs to add data. Matches auto-compute!</p>
+                <button class="btn btn-secondary me-2" onclick="backupData()">Export Backup</button>
+                <input type="file" id="restoreFile" class="d-none" onchange="restoreData(event)">
+                <button class="btn btn-info" onclick="document.getElementById('restoreFile').click()">Import Backup</button>
+                <button class="btn btn-danger ms-2" onclick="clearData()">Clear All</button>
+            </div>
+
+            <!-- Add Donor -->
+            <div class="tab-pane fade" id="addDonor">
+                <div class="card p-4 mb-4 shadow-sm border-0" style="background: #FDFAF7;">
+                    <h5 class="card-title text-center mb-4"><i class="fas fa-user-plus me-2"></i>Add New Donor</h5>
+                    <form id="donorForm" action="../backend/add_donor.php" method="POST" class="row g-3">
+                        <div class="col-md-6"><input type="text" class="form-control" id="dName" placeholder="Name" required></div>
+                        <div class="col-md-3"><input type="number" class="form-control" id="dAge" placeholder="Age" min="18" required></div>
+                        <div class="col-md-3"><select class="form-select" id="dBlood"><option>O+</option><option>A+</option><option>B+</option><option>AB+</option><option>O-</option><option>A-</option><option>B-</option><option>AB-</option></select></div>
+                        <div class="col-12"><input type="text" class="form-control" id="dOrgan" placeholder="Organ (e.g. Kidney)" required></div>
+                        <button type="submit" class="btn btn-primary w-100">Add Donor</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Add Patient -->
+            <div class="tab-pane fade" id="addPatient">
+                <div class="card p-4 mb-4 shadow-sm border-0" style="background: #FDFAF7;">
+                    <h5 class="card-title text-center mb-4"><i class="fas fa-user-injured me-2"></i>Add Patient</h5>
+                    <form id="patientForm" action="../backend/add_patient.php" method="POST" class="row g-3">
+                        <div class="col-md-6"><input type="text" class="form-control" id="pName" placeholder="Name" required></div>
+                        <div class="col-md-3"><input type="number" class="form-control" id="pAge" placeholder="Age" required></div>
+                        <div class="col-md-3"><select class="form-select" id="pBlood">
+                            <option>O+</option><option>A+</option><option>B+</option><option>AB+</option><option>O-</option><option>A-</option><option>B-</option><option>AB-</option>
+                        </select></div>
+                        <div class="col-md-6"><input type="text" class="form-control" id="pOrgan" placeholder="Required Organ" required></div>
+                        <div class="col-md-6"><select class="form-select" id="pUrgency">
+                            <option>Low</option><option>Medium</option><option>High</option>
+                        </select></div>
+                        <button type="submit" class="btn btn-success w-100">Add Patient</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Matches -->
+            <div class="tab-pane fade" id="matches">
+                <div class="card p-4 shadow-sm border-0" style="background: #FDFAF7;">
+                    <h5 class="card-title mb-3"><i class="fas fa-search me-2"></i>Find Matches</h5>
+                    <div id="matchesList" class="mt-3"></div>
+                    <form action="../backend/match.php" method="POST">
+                      <button type="submit" class="btn btn-warning mt-3 w-100">Compute All Matches</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- View Data -->
+            <div class="tab-pane fade" id="data">
+                <div class="card p-4 shadow-sm">
+                    <h5 class="card-title mb-3"><i class="fas fa-list me-2"></i>View All Data</h5>
+                    <ul class="nav nav-tabs mb-3">
+                        <li><a class="nav-link active" href="#donors" data-bs-toggle="tab">Donors</a></li>
+                        <li><a class="nav-link" href="#patients" data-bs-toggle="tab">Patients</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="donors"><div id="donorsList"></div></div>
+                        <div class="tab-pane fade" id="patients"><div id="patientsList"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let donors = JSON.parse(localStorage.getItem('donors')) || [];
+        let patients = JSON.parse(localStorage.getItem('patients')) || [];
+
+        function saveData() {
+            localStorage.setItem('donors', JSON.stringify(donors));
+            localStorage.setItem('patients', JSON.stringify(patients));
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('totalDonors').textContent = donors.length;
+            document.getElementById('totalPatients').textContent = patients.length;
+            document.getElementById('totalMatches').textContent = 0;
+            document.getElementById('availableOrgans').textContent = donors.filter(d => d.status !== 'Donated').length;
+        }
+
+        // Forms
+        /*document.getElementById('donorForm').addEventListener('submit', e => {
+            e.preventDefault();
+            donors.push({
+                id: Date.now(),
+                name: document.getElementById('dName').value,
+                age: document.getElementById('dAge').value,
+                blood_group: document.getElementById('dBlood').value,
+                organ: document.getElementById('dOrgan').value,
+                status: 'Available'
+            });
+            document.getElementById('donorForm').reset();
+            saveData();
+            alert('Donor added!');
+        });
+
+        document.getElementById('patientForm').addEventListener('submit', e => {
+            e.preventDefault();
+            patients.push({
+                id: Date.now(),
+                name: document.getElementById('pName').value,
+                age: document.getElementById('pAge').value,
+                blood_group: document.getElementById('pBlood').value,
+                required_organ: document.getElementById('pOrgan').value,
+                urgency: document.getElementById('pUrgency').value
+            });
+            document.getElementById('patientForm').reset();
+            saveData();
+            alert('Patient added!');
+        });
+*/
+        function findMatches() {
+            const matches = [];
+            patients.forEach(p => {
+                donors.forEach(d => {
+                    if (d.status === 'Available' && d.blood_group === p.blood_group && d.organ === p.required_organ) {
+                        matches.push({donor: d.name, patient: p.name, organ: d.organ, urgency: p.urgency});
+                    }
+                });
+            });
+            document.getElementById('totalMatches').textContent = matches.length;
+            document.getElementById('matchesList').innerHTML = matches.map(m =>
+                `<div class="card"><div class="card-body"><strong>${m.donor}</strong> → <strong>${m.patient}</strong> (${m.organ}, ${m.urgency})</div></div>`
+            ).join('');
+        }
+
+        function backupData() {
+            const data = {donors, patients};
+            const blob = new Blob([JSON.stringify(data)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'transplant_backup.json'; a.click();
+        }
+
+        function restoreData(e) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = ev => {
+                const data = JSON.parse(ev.target.result);
+                donors = data.donors || [];
+                patients = data.patients || [];
+                saveData();
+                alert('Restored!');
+            };
+            reader.readAsText(file);
+        }
+
+        function clearData() { if(confirm('Clear all?')) { donors=[]; patients=[]; saveData(); } }
+
+        function showDonors() {
+            let html = '<div class="table-responsive"><table class="table table-striped table-hover"><thead class="table-dark"><tr><th>ID</th><th>Name</th><th>Age</th><th>Blood Group</th><th>Organ</th><th>Status</th></tr></thead><tbody>';
+            if (donors.length === 0) {
+                html += '<tr><td colspan="6" class="text-center text-muted py-4">No donors yet. Add some!</td></tr>';
+            } else {
+                donors.forEach(d => {
+                    html += `<tr>
+                        <td>${d.id}</td>
+                        <td><strong>${d.name}</strong></td>
+                        <td>${d.age}</td>
+                        <td><span class="badge bg-primary">${d.blood_group}</span></td>
+                        <td>${d.organ}</td>
+                        <td><span class="badge bg-${d.status === 'Available' ? 'success' : 'danger'}">${d.status}</span></td>
+                    </tr>`;
+                });
+            }
+            html += '</tbody></table></div>';
+            document.getElementById('donorsList').innerHTML = html;
+        }
+
+        function showPatients() {
+            let html = '<div class="table-responsive"><table class="table table-striped table-hover"><thead class="table-dark"><tr><th>ID</th><th>Name</th><th>Age</th><th>Blood Group</th><th>Required Organ</th><th>Urgency</th></tr></thead><tbody>';
+            if (patients.length === 0) {
+                html += '<tr><td colspan="6" class="text-center text-muted py-4">No patients yet. Add some!</td></tr>';
+            } else {
+                patients.forEach(p => {
+                    html += `<tr>
+                        <td>${p.id}</td>
+                        <td><strong>${p.name}</strong></td>
+                        <td>${p.age}</td>
+                        <td><span class="badge bg-primary">${p.blood_group}</span></td>
+                        <td>${p.required_organ}</td>
+                        <td><span class="badge bg-${p.urgency.toLowerCase()}">${p.urgency}</span></td>
+                    </tr>`;
+                });
+            }
+            html += '</tbody></table></div>';
+            document.getElementById('patientsList').innerHTML = html;
+        }
+
+        // Auto-refresh when switching tabs
+        document.querySelector('a[href="#data"]').addEventListener('shown.bs.tab', () => {
+            showDonors();
+            showPatients();
+        });
+
+        // Init
+        updateStats();
+        findMatches();
+    </script>
+</body>
+</html>
